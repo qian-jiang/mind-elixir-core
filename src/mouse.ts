@@ -135,21 +135,31 @@ export default function (mind: MindElixirInstance) {
     }, 200)
   }
 
+  // const handleWheel = (e: WheelEvent) => {
+  //   e.stopPropagation()
+  //   e.preventDefault()
+  //   if (e.ctrlKey || e.metaKey) {
+  //     if (e.deltaY < 0) handleZoom(mind, 'in', mind.dragMoveHelper)
+  //     else if (mind.scaleVal - mind.scaleSensitivity > 0) handleZoom(mind, 'out', mind.dragMoveHelper)
+  //   } else if (e.shiftKey) {
+  //     mind.move(-e.deltaY, 0)
+  //   } else {
+  //     mind.map.style.transition = 'none'
+  //     mind.move(-e.deltaX, -e.deltaY)
+  //     mind.map.style.transition = 'transform 0.3s'
+  //   }
+  // }
+
   const handleWheel = (e: WheelEvent) => {
     e.stopPropagation()
     e.preventDefault()
-    if (e.ctrlKey || e.metaKey) {
-      if (e.deltaY < 0) handleZoom(mind, 'in', mind.dragMoveHelper)
-      else if (mind.scaleVal - mind.scaleSensitivity > 0) handleZoom(mind, 'out', mind.dragMoveHelper)
-    } else if (e.shiftKey) {
-      mind.move(-e.deltaY, 0)
-    } else {
-      mind.map.style.transition = 'none'
-      mind.move(-e.deltaX, -e.deltaY)
-      mind.map.style.transition = 'transform 0.3s'
+    // 直接使用滚轮控制缩放，不需要Ctrl键
+    if (e.deltaY < 0) {
+      handleZoom(mind, 'in', mind.dragMoveHelper)
+    } else if (mind.scaleVal - mind.scaleSensitivity > 0) {
+      handleZoom(mind, 'out', mind.dragMoveHelper)
     }
   }
-
   const { container } = mind
   const off = on([
     { dom: container, evt: 'pointerdown', func: handlePointerDown },
